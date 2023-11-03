@@ -3,7 +3,8 @@
         <div class="chatbox">
                 <div> 
                     <h2>Чат</h2>
-                    <div class="text" v-for='msg in messages' :key="msg.id">{{ msg.user }}: {{ msg.text }}</div>
+                    <div class="text" v-for='msg in messages' :key="msg.id">{{ msg.user }}: {{ msg.text }}
+                    <img src="./photos/x.png" style="width: 15px; heigh: 15px" @click="removeMsg(msg.id)"/></div>
                     <div v-show="emptyMsg" class="empty">Текущих сообщений нет</div>
                 </div>
                 <div>
@@ -12,6 +13,7 @@
                          <button @click="sendMessage" class="send"> Отправить</button>
                          <button  @click="delMessage" class="del">Удалить</button>
                         </div>
+                        
                 </div>
         </div>
     </div>
@@ -43,12 +45,16 @@ export default {
             this.saveChatRecords()
             this.newMessage = ''
 
+            
+
             console.log(this.messages);
             } else {
                 alert('Пожалуйста введите сообщение')
             }
         },
-
+        removeMsg(id) {
+            this.messages = this.messages.filter((msg) => msg.id !== id)
+        },
         saveChatRecords(){
             const records = this.messages
             localStorage.setItem(`messages_${this.userName}`, JSON.stringify(records))
